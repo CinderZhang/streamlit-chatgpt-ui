@@ -16,6 +16,10 @@ with open(".env", "r") as f:
             openai.api_key = value
 # openai.api_key = "<YOUR_OPENAI_API_KEY>"
 
+# read in system.txt
+with open("system.txt", "r",encoding='utf-8') as f:
+    systemtxt = f.read()
+    
 # Initialise session state variables
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
@@ -23,7 +27,8 @@ if 'past' not in st.session_state:
     st.session_state['past'] = []
 if 'messages' not in st.session_state:
     st.session_state['messages'] = [
-        {"role": "system", "content": "You are a helpful assistant."}
+        # {"role": "system", "content": "You are a helpful assistant."}
+        {"role": "system", "content": systemtxt}
     ]
 if 'model_name' not in st.session_state:
     st.session_state['model_name'] = []
@@ -47,12 +52,14 @@ if model_name == "GPT-3.5":
 else:
     model = "gpt-4"
 
+
 # reset everything
 if clear_button:
     st.session_state['generated'] = []
     st.session_state['past'] = []
     st.session_state['messages'] = [
-        {"role": "system", "content": "You are a helpful assistant."}
+        #{"role": "system", "content": "You are a helpful assistant."}
+        {"role": "system", "content": systemtxt}
     ]
     st.session_state['number_tokens'] = []
     st.session_state['model_name'] = []
